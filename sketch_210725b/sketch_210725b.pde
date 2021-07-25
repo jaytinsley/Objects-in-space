@@ -23,7 +23,7 @@ class planet {
     mass = inMass;
   }
   String name;
-  int x, y;
+  int x, y, xVelocity, yVelocity;
   float mass;
   color surface = color(random(0, 255), random(0, 255), random(0, 255));
 
@@ -32,7 +32,7 @@ class planet {
     circle(X, Y, 50);
   }
 
-  void movePlanet(int xVelocity, int yVelocity) {
+  void movePlanet() {
     x = x + xVelocity;
     y = y + yVelocity;
   }
@@ -47,11 +47,19 @@ void draw() {
       int yDistance = (solarSystem.get(i).y - solarSystem.get(k).y);
 
       int radius = int(sqrt(pow(xDistance, 2) + pow(yDistance, 2)))*scale;
-      //println(radius);
+
+
       if (k != i) {
+        println("radius " + radius);
+        println("mass1 "+ solarSystem.get(i).mass);
+        println("mass2 "+ solarSystem.get(k).mass);
+        
         float force = (6.67e-11*solarSystem.get(i).mass * solarSystem.get(k).mass)/pow(radius, 2);
         println("force of " + solarSystem.get(i).name + " on " + solarSystem.get(k).name + " is " + force);
+          //<>//
       }
     }
+
+    //solarSystem.get(i).movePlanet();
   }
 }
