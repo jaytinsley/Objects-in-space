@@ -6,13 +6,16 @@
 int scale;
 
 void setup() {
+    
+  frameRate(120);
   size(800, 800);
-  scale = 364000000/(width/4);
+  scale = 3640000/(width/4);
 
   //println(scale);
 
   solarSystem.add(new planet("earth", 6e24, width/2, height/2));
   solarSystem.add(new planet("moon", 7.3e22, width/2, height/4));
+  solarSystem.get(1).xVelocity = 1022;
 }
 
 class planet {
@@ -23,17 +26,17 @@ class planet {
     mass = inMass;
   }
   String name;
-  int x, y, xVelocity, yVelocity;
+  float x, y, xVelocity, yVelocity;
   float mass;
   color surface = color(random(0, 255), random(0, 255), random(0, 255));
 
   void drawPlanet() {
     fill(surface);
-    circle(X, Y, 50);
+    circle(x, y, 50);
   }
 
   void movePlanet() {
-    x = x + xVelocity;
+    x = x + (xVelocity/scale);
     y = y + yVelocity;
   }
 }
@@ -41,25 +44,30 @@ class planet {
 ArrayList<planet> solarSystem = new ArrayList<planet>();
 
 void draw() {
+  background(122.5);
+  textSize(30);
+  text(frameRate, 50, 30);
+
   for (int i=0; i<solarSystem.size(); i++) {
     for (int k=0; k<solarSystem.size(); k++) {
-      int xDistance = (solarSystem.get(i).x - solarSystem.get(k).x);
-      int yDistance = (solarSystem.get(i).y - solarSystem.get(k).y);
+      int xDistance = int((solarSystem.get(i).x - solarSystem.get(k).x));
+      int yDistance = int((solarSystem.get(i).y - solarSystem.get(k).y));
 
       int radius = int(sqrt(pow(xDistance, 2) + pow(yDistance, 2)))*scale;
 
 
-      if (k != i) {
-        println("radius " + radius);
-        println("mass1 "+ solarSystem.get(i).mass);
-        println("mass2 "+ solarSystem.get(k).mass);
-        
+      if (k != i) { //<>//
+        //println("radius " + radius);
+        //println("mass1 "+ solarSystem.get(i).mass);
+        //println("mass2 "+ solarSystem.get(k).mass);
+
         float force = (6.67e-11*solarSystem.get(i).mass * solarSystem.get(k).mass)/pow(radius, 2);
-        println("force of " + solarSystem.get(i).name + " on " + solarSystem.get(k).name + " is " + force);
-          //<>//
+        //println("force of " + solarSystem.get(i).name + " on " + solarSystem.get(k).name + " is " + force);
       }
     }
 
-    //solarSystem.get(i).movePlanet();
+    solarSystem.get(i).movePlanet();
+    println(solarSystem.get(i).name+"'s X: " + solarSystem.get(i).x, "Y: " + solarSystem.get(i).y);
+    solarSystem.get(i).drawPlanet();
   }
 }
