@@ -14,7 +14,7 @@ void setup() {
   //println(scale);
 
   solarSystem.add(new planet("earth", 6e24, width/2, height/2));
-  solarSystem.add(new planet("moon", 7.3e22, width/2-141, height/2-141));
+  solarSystem.add(new planet("moon", 7.3e22, width/2, height/4));
   //solarSystem.add(new planet("moon", 7.3e22, width/2, height/4));
 
   solarSystem.get(1).xVelocity = 1022;
