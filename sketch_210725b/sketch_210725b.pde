@@ -8,16 +8,19 @@ int scale;
 void setup() {
 
   frameRate(1000);
-  size(800, 800);
-  scale = 364000000/(width/4);
+  size(1080, 1080);
+  scale = 3640000/(width/4);
 
   //println(scale);
 
-  solarSystem.add(new planet("earth", 6e24, width/2, height/2));
-  solarSystem.add(new planet("moon", 7.3e22, width/2, height/4));
+  solarSystem.add(new planet("earth", 6e22, width/2, height/2-100));
+  solarSystem.add(new planet("moon", 7.3e20, width/2, height/4));
+
   //solarSystem.add(new planet("moon", 7.3e22, width/2, height/4));
 
   solarSystem.get(1).xVelocity = 1022;
+  
+  solarSystem.get(0).xVelocity = 0;
 
   solarSystem.get(0).drawPlanet();
   solarSystem.get(1).drawPlanet();
@@ -49,12 +52,12 @@ class planet {
 ArrayList<planet> solarSystem = new ArrayList<planet>();
 
 void draw() {
-  //background(122.5);
+  background(122.5);
   textSize(30);
   text(frameRate, 50, 30);
 
   for (int i=0; i<solarSystem.size(); i++) {
-    for (int o = 0; o < 100; o++ ) {
+    //for (int o = 0; o < 100; o++ ) {
 
       for (int k=0; k<solarSystem.size(); k++) {
         int xDistance = int((solarSystem.get(i).x - solarSystem.get(k).x));
@@ -75,15 +78,34 @@ void draw() {
 
           int opp = yDistance, adj = xDistance;
           float angle = (atan(float(opp)/float(adj)));
-          println("acceleration in X direction: "+(force*sin(angle)/solarSystem.get(i).mass));
-          println("Acceleration in Y direction: "+(force*cos(angle)/solarSystem.get(i).mass));
-
-          solarSystem.get(i).xVelocity = solarSystem.get(i).xVelocity + (force*sin(angle)/solarSystem.get(i).mass);
-          solarSystem.get(i).yVelocity = solarSystem.get(i).yVelocity + (force*cos(angle)/solarSystem.get(i).mass);
+          //println("acceleration in X direction: "+(force*sin(angle)/solarSystem.get(i).mass));
+          //println("Acceleration in Y direction: "+(force*cos(angle)/solarSystem.get(i).mass));
+          println();
+          println();
+          println();
+          println("angle:" + angle*180/PI);
+          float xForce = (force*cos(angle)/solarSystem.get(i).mass), yForce = (force*sin(angle)/solarSystem.get(i).mass);
+          
+          if (solarSystem.get(i).y - solarSystem.get(k).y < 0 && (angle*180/PI)<0){
+          yForce = yForce * -1;
+          xForce = xForce * -1;
+          }
+          
+          if (solarSystem.get(i).y - solarSystem.get(k).y > 0 && (angle*180/PI)>0){
+          yForce = yForce * -1;
+          xForce = xForce * -1;
+          
+          }
+          //if (xDistance < 0 ){
+          //xForce = xForce * -1;
+          //}
+          
+          solarSystem.get(i).xVelocity = solarSystem.get(i).xVelocity + xForce;
+          solarSystem.get(i).yVelocity = solarSystem.get(i).yVelocity + yForce;
 
           //println(angle*180/PI);
           //println(angle);
-        } //<>//
+        //} //<>//
       }
 
       solarSystem.get(i).movePlanet();
