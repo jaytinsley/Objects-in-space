@@ -7,6 +7,7 @@ int scale;
 
 void setup() {
 
+  
   frameRate(1000);
   size(1080, 1080);
   scale = 3640000/(width/4);
